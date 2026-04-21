@@ -1,4 +1,4 @@
-import { FileText, Download, Trash2 } from 'lucide-react';
+import { FileText, Download, Eye, Trash2, Share2 } from 'lucide-react';
 import { useEffect, useState } from "react";
 import supabase from "../config/SupaBaseClient";
 import UploadPopUp from "../Pages/UploadPopUp";
@@ -62,7 +62,21 @@ export default function Home() {
 
     }
 
+    const handleShare = async (relativeUrl) => {
+        try {
+            const fullUrl = relativeUrl.startsWith('http')
+                ? relativeUrl
+                : `${window.location.origin}${relativeUrl}`;
 
+            await navigator.clipboard.writeText(fullUrl);
+
+            toast.success("Download link copied to clipboard!");
+
+        } catch (err) {
+            console.error("Failed to copy link: ", err);
+            alert("Failed to copy link. Please try again.");
+        }
+    };
     return (
         <div className="flex h-[100dvh] bg-[#F4F7FA] text-slate-900 overflow-hidden selection:bg-blue-100">
 
@@ -102,12 +116,11 @@ export default function Home() {
 
                                         <div className="flex flex-col">
                                             <span className="text-sm font-medium text-gray-700">
-                                                {`File ${index + 1}`}
+                                                {item.name}
                                             </span>
                                         </div>
                                     </div>
 
-                                    {/* Action Buttons Container */}
                                     <div className="flex items-center gap-2">
                                         {/* Download Button */}
                                         <a
@@ -120,6 +133,25 @@ export default function Home() {
                                         >
                                             <Download size={18} />
                                         </a>
+
+                                        {/* View Button */}
+                                        <a
+                                            href={item.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors"
+                                            title="View / Preview"
+                                        >
+                                            <Eye size={18} />
+                                        </a>
+                                        {/* Share (Copy Link) Button */}
+                                        <button
+                                            onClick={() => handleShare(`${item.url}?download=`)}
+                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-colors"
+                                            title="Copy Download Link"
+                                        >
+                                            <Share2 size={18} />
+                                        </button>
 
                                         {/* Delete Button */}
                                         <button
