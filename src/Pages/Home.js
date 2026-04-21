@@ -103,60 +103,61 @@ export default function Home() {
                     </section>
 
                     {/* File Grid can be another component later */}
-                    <section>
+                    <section className="w-full">
                         <div className="flex flex-col gap-3">
                             {urls.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow"
+                                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow gap-3"
                                 >
-                                    <div className="flex items-center gap-3">
-                                        {/* File Icon */}
-                                        <FileText className="text-blue-500" size={24} />
-
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-medium text-gray-700">
+                                    {/* Left Side: Icon & Name */}
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <FileText className="text-blue-500 shrink-0" size={24} />
+                                        <div className="flex flex-col min-w-0">
+                                            <span className="text-sm font-medium text-gray-700 truncate">
                                                 {item.name}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-2">
-                                        {/* Download Button */}
+                                    {/* Right Side: Action Buttons */}
+                                    <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible pb-1 sm:pb-0">
+                                        {/* Download */}
                                         <a
                                             href={`${item.url}?download=`}
                                             download={item.name}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                            className="flex-1 sm:flex-none flex justify-center p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
                                             title="Download"
                                         >
                                             <Download size={18} />
                                         </a>
 
-                                        {/* View Button */}
+                                        {/* View */}
                                         <a
                                             href={item.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors"
-                                            title="View / Preview"
+                                            className="flex-1 sm:flex-none flex justify-center p-2 bg-white border border-gray-300 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                                            title="View"
                                         >
                                             <Eye size={18} />
                                         </a>
-                                        {/* Share (Copy Link) Button */}
+
+                                        {/* Share */}
                                         <button
                                             onClick={() => handleShare(`${item.url}?download=`)}
-                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-colors"
-                                            title="Copy Download Link"
+                                            className="flex-1 sm:flex-none flex justify-center p-2 bg-white border border-gray-300 rounded-md hover:bg-green-50 hover:text-green-600 transition-colors"
+                                            title="Copy Link"
                                         >
                                             <Share2 size={18} />
                                         </button>
 
-                                        {/* Delete Button */}
+                                        {/* Delete */}
                                         <button
                                             onClick={() => handleDelete(item.path)}
-                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+                                            className="flex-1 sm:flex-none flex justify-center p-2 bg-white border border-gray-300 rounded-md hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 size={18} />
