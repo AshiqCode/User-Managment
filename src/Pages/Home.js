@@ -42,7 +42,7 @@ export default function Home() {
             setUrls(urls)
         }
         dataFethcher()
-    }, [user])
+    }, [user, uploadPopUp])
 
     return (
         <div className="flex h-[100dvh] bg-[#F4F7FA] text-slate-900 overflow-hidden selection:bg-blue-100">
