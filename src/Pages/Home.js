@@ -1,10 +1,11 @@
-import { FileText, Download } from 'lucide-react';
+import { FileText, Download, Trash2 } from 'lucide-react';
 import { useEffect, useState } from "react";
 import supabase from "../config/SupaBaseClient";
 import UploadPopUp from "../Pages/UploadPopUp";
 import Sidebar from "../Pages/Sidebar";
 import Navbar from "../Pages/Navbar";
 import Loading from './Loading';
+import { toast } from 'react-toastify';
 
 export default function Home() {
     const [user, setUser] = useState(null);
@@ -36,13 +37,30 @@ export default function Home() {
                     .from("VaultStorage")
                     .getPublicUrl(`${user?.id}/${file.name}`);
 
-                return urlData.publicUrl;
+                return {
+                    name: file.name,
+                    path: `${user?.id}/${file.name}`,
+                    url: urlData.publicUrl
+                };
             });
             console.log(urls);
             setUrls(urls)
         }
         dataFethcher()
     }, [user, uploadPopUp])
+
+    const handleDelete = async (item) => {
+        const { data, error } = await supabase.storage.from("VaultStorage").remove([item])
+        if (error) {
+            toast.error("file not delete")
+        }
+        if (data) {
+            toast.success("file Delete")
+            setUrls(prev => prev.filter(file => file.path !== item))
+        }
+
+    }
+
 
     return (
         <div className="flex h-[100dvh] bg-[#F4F7FA] text-slate-900 overflow-hidden selection:bg-blue-100">
@@ -85,20 +103,32 @@ export default function Home() {
                                             <span className="text-sm font-medium text-gray-700">
                                                 {`File ${index + 1}`}
                                             </span>
-
                                         </div>
                                     </div>
 
-                                    {/* Download Button */}
-                                    <a
-                                        href={`${item}?download=`}
-                                        download={item}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                                    >
-                                        <Download size={18} />
-                                    </a>
+                                    {/* Action Buttons Container */}
+                                    <div className="flex items-center gap-2">
+                                        {/* Download Button */}
+                                        <a
+                                            href={`${item}?download=`}
+                                            download={item}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                            title="Download"
+                                        >
+                                            <Download size={18} />
+                                        </a>
+
+                                        {/* Delete Button */}
+                                        <button
+                                            onClick={() => handleDelete(item.path)}
+                                            className="p-2 bg-white border border-gray-300 rounded-md hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+                                            title="Delete"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
