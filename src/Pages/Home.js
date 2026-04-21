@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import supabase from "../config/SupaBaseClient";
 import UploadPopUp from "../Pages/UploadPopUp";
 import Sidebar from "../Pages/Sidebar";
@@ -19,6 +19,26 @@ export default function Home() {
         });
         return () => listener.subscription.unsubscribe();
     }, []);
+
+    useEffect(() => {
+        const dataFethcher = async () => {
+            const { data, error } = await supabase
+                .storage
+                .from('VaultStorage')
+                .list(user?.id);
+
+            const images = data.map((file) => {
+                const { data: urlData } = supabase
+                    .storage
+                    .from("VaultStorage")
+                    .getPublicUrl(`${user?.id}/${file.name}`);
+
+                return urlData.publicUrl;
+            });
+            console.log(images);
+        }
+        dataFethcher()
+    }, [user])
 
     return (
         <div className="flex h-[100dvh] bg-[#F4F7FA] text-slate-900 overflow-hidden selection:bg-blue-100">
