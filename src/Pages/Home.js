@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import supabase from "../config/SupaBaseClient";
+import UploadPopUp from "../Pages/UploadPopUp";
 import {
     Users,
     Star,
@@ -10,11 +11,12 @@ import {
     ShieldCheck,
     LayoutGrid,
     Clock
-} from "lucide-react"; // install lucide-react first
+} from "lucide-react";
 
 export default function Home() {
     const [user, setUser] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [uploadPopUp, setUploadPopUp] = useState(false);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -96,12 +98,9 @@ export default function Home() {
                                 <p className="text-[13px] font-bold text-slate-900 truncate leading-tight">
                                     {user?.user_metadata?.full_name || "User"}
                                 </p>
-                                <div className="flex items-center gap-1.5 mt-0.5">
-                                    <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
-                                    <p className="text-[10px] font-bold text-blue-600/80 uppercase tracking-widest">
-                                        Premium Plan
-                                    </p>
-                                </div>
+                                <p className="text-[10px] font-medium text-slate-500 mt-0.5">
+                                    {user?.user_metadata?.email || "User"}
+                                </p>
                             </div>
                         </div>
 
@@ -138,7 +137,9 @@ export default function Home() {
 
                     <div className="flex items-center gap-4">
 
-                        <button className="bg-slate-900 hover:bg-black text-white text-[13px] font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-slate-900/10 active:scale-95 flex items-center gap-2">
+                        <button className="bg-slate-900 hover:bg-black text-white text-[13px] font-bold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-slate-900/10 active:scale-95 flex items-center gap-2"
+                            onClick={() => setUploadPopUp(true)}
+                        >
                             <CloudUpload size={16} />
                             Upload
                         </button>
@@ -169,6 +170,11 @@ export default function Home() {
             {isSidebarOpen && (
                 <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden" />
             )}
+
+            {uploadPopUp &&
+                <UploadPopUp setUploadPopUp={setUploadPopUp} userId={user?.id} />
+            }
+
         </div>
     );
 }
