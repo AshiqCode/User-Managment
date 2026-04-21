@@ -152,8 +152,8 @@ export default function Home() {
                     {/* Hero Section */}
                     <section className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <div>
-                            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Recent Activity</h1>
-                            <p className="text-slate-400 text-sm font-medium mt-1">Manage your most recently accessed assets.</p>
+                            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Your Activities</h1>
+                            <p className="text-slate-400 text-sm font-medium mt-1">Manage your Files.</p>
                         </div>
 
                     </section>
