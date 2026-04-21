@@ -11,7 +11,7 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
             toast.error("Select files first")
             return
         }
-        const { data, error } = await supabase.storage.from("VaultStorage").upload(`${userId}/${Date.now()}`, files)
+        const { data, error } = await supabase.storage.from("VaultStorage").upload(`${userId}/${files.name}`, files)
         const { data: userData, error: userError } = await supabase.from("VaultStorage").insert({ userid: userId, imageName: files.name })
 
         if (data) {

@@ -27,16 +27,13 @@ export default function Sidebar({ isOpen, setOpen, user, handleLogout }) {
                         </button>
                         <button className="flex items-center gap-3 w-full px-4 py-3 text-[14px] font-semibold text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl transition-all group">
                             <Users size={18} className="group-hover:text-blue-500" />
-                            Shared with me
+                            Shared with Other
                         </button>
                         <button className="flex items-center gap-3 w-full px-4 py-3 text-[14px] font-semibold text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl transition-all group">
                             <Star size={18} className="group-hover:text-amber-500" />
                             Starred
                         </button>
-                        <button className="flex items-center gap-3 w-full px-4 py-3 text-[14px] font-semibold text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl transition-all group">
-                            <Clock size={18} className="group-hover:text-indigo-500" />
-                            Recent
-                        </button>
+
 
                         <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100">
                             <ShieldCheck size={14} />

@@ -1,13 +1,16 @@
-import { useEffect, useId, useState } from "react";
+import { FileText, Download } from 'lucide-react';
+import { useEffect, useState } from "react";
 import supabase from "../config/SupaBaseClient";
 import UploadPopUp from "../Pages/UploadPopUp";
 import Sidebar from "../Pages/Sidebar";
 import Navbar from "../Pages/Navbar";
+import Loading from './Loading';
 
 export default function Home() {
     const [user, setUser] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [uploadPopUp, setUploadPopUp] = useState(false);
+    const [urls, setUrls] = useState([])
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -27,7 +30,7 @@ export default function Home() {
                 .from('VaultStorage')
                 .list(user?.id);
 
-            const images = data.map((file) => {
+            const urls = data.map((file) => {
                 const { data: urlData } = supabase
                     .storage
                     .from("VaultStorage")
@@ -35,7 +38,8 @@ export default function Home() {
 
                 return urlData.publicUrl;
             });
-            console.log(images);
+            console.log(urls);
+            setUrls(urls)
         }
         dataFethcher()
     }, [user])
@@ -67,10 +71,44 @@ export default function Home() {
 
                     {/* File Grid can be another component later */}
                     <section>
-                        {/* Render files here */}
+                        <div className="flex flex-col gap-3">
+                            {urls.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        {/* File Icon */}
+                                        <FileText className="text-blue-500" size={24} />
+
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-medium text-gray-700">
+                                                {`File ${index + 1}`}
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    {/* Download Button */}
+                                    <a
+                                        href={`${item}?download=`}
+                                        download={item}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                    >
+                                        <Download size={18} />
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
                     </section>
                 </div>
             </main>
+            {!user &&
+                <Loading />
+
+            }
 
             {uploadPopUp && (
                 <UploadPopUp setUploadPopUp={setUploadPopUp} userId={user?.id} />
