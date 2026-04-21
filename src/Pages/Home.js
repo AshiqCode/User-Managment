@@ -4,7 +4,7 @@ import supabase from "../config/SupaBaseClient";
 import UploadPopUp from "../Pages/UploadPopUp";
 import Sidebar from "../Pages/Sidebar";
 import Navbar from "../Pages/Navbar";
-import Loading from './Loading';
+import Loading from '../Pages/Loading';
 import { toast } from 'react-toastify';
 
 export default function Home() {
@@ -26,6 +26,7 @@ export default function Home() {
 
     useEffect(() => {
         const dataFethcher = async () => {
+            if (!user?.id) return;
             const { data } = await supabase
                 .storage
                 .from('VaultStorage')
@@ -110,8 +111,8 @@ export default function Home() {
                                     <div className="flex items-center gap-2">
                                         {/* Download Button */}
                                         <a
-                                            href={`${item}?download=`}
-                                            download={item}
+                                            href={`${item.url}?download=`}
+                                            download={item.name}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="p-2 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:text-blue-600 transition-colors"
