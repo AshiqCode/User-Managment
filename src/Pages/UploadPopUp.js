@@ -14,11 +14,11 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
         const { data, error } = await supabase.storage.from("VaultStorage").upload(`${userId}/${files.name}`, files)
         const { data: userData, error: userError } = await supabase.from("VaultStorage").insert({ userid: userId, imageName: files.name })
 
-        if (data) {
+        if (data && userData) {
             console.log("file uploaded");
             setFiles(null)
         }
-        if (error) {
+        if (userError && error) {
             console.log(error);
         }
         setUploadPopUp(false)

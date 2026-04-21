@@ -1,5 +1,5 @@
 // components/Sidebar.jsx
-import { LayoutGrid, Users, Star, Clock, ShieldCheck, LogOut, CloudUpload } from "lucide-react";
+import { LayoutGrid, Users, Star, ShieldCheck, LogOut, CloudUpload } from "lucide-react";
 
 export default function Sidebar({ isOpen, setOpen, user, handleLogout }) {
     return (

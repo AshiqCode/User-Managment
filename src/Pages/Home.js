@@ -25,7 +25,7 @@ export default function Home() {
 
     useEffect(() => {
         const dataFethcher = async () => {
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .storage
                 .from('VaultStorage')
                 .list(user?.id);
