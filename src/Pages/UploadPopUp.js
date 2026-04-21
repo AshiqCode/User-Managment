@@ -1,13 +1,14 @@
 import { CloudUpload } from "lucide-react";
 import { useState } from "react";
 import supabase from "../config/SupaBaseClient";
+import { toast } from "react-toastify";
 const UploadPopUp = ({ setUploadPopUp, userId }) => {
     console.log(userId);
     const [fileCount, setFileCount] = useState(0)
     const [files, setFiles] = useState(null)
     const UploadFiles = async () => {
         if (!files) {
-            alert("selets fils")
+            toast.error("Select files first")
             return
         }
         const { data, error } = await supabase.storage.from("VaultStorage").upload(`${userId}/${Date.now()}`, files)
@@ -19,7 +20,10 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
             console.log(error);
         }
         setUploadPopUp(false)
+        toast.success("File Uploaded")
     }
+
+
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -67,7 +71,7 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
                                         PDF, PNG, JPG or ZIP (max. 50MB)
                                     </p>
                                 </>)}
-                            {!fileCount == 0 && (<p className="text-sm font-bold text-slate-700 tracking-tight">
+                            {fileCount !== 0 && (<p className="text-sm font-bold text-slate-700 tracking-tight">
                                 {fileCount} File  Ready To Upload
                             </p>)}
                         </div>
