@@ -1,8 +1,25 @@
 import { CloudUpload } from "lucide-react";
 import { useState } from "react";
+import supabase from "../config/SupaBaseClient";
 const UploadPopUp = ({ setUploadPopUp, userId }) => {
     console.log(userId);
     const [fileCount, setFileCount] = useState(0)
+    const [files, setFiles] = useState(null)
+    const UploadFiles = async () => {
+        if (!files) {
+            alert("selets fils")
+            return
+        }
+        const { data, error } = await supabase.storage.from("VaultStorage").upload(`${userId}/${Date.now()}`, files)
+        if (data) {
+            console.log("file uploaded");
+            setFiles(null)
+        }
+        if (error) {
+            console.log(error);
+        }
+        setUploadPopUp(false)
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -28,8 +45,10 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
                     <input
                         type="file"
                         className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                        onChange={(e) => setFileCount(e.target.files.length)}
-                        multiple
+                        onChange={(e) => {
+                            setFileCount(e.target.files.length)
+                            setFiles(e.target.files[0])
+                        }}
                     />
 
                     <div className="flex flex-col items-center">
@@ -49,7 +68,7 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
                                     </p>
                                 </>)}
                             {!fileCount == 0 && (<p className="text-sm font-bold text-slate-700 tracking-tight">
-                                {fileCount} Fils Are Ready To Upload
+                                {fileCount} File  Ready To Upload
                             </p>)}
                         </div>
                     </div>
@@ -67,7 +86,7 @@ const UploadPopUp = ({ setUploadPopUp, userId }) => {
                         Cancel
                     </button>
 
-                    <button className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition">
+                    <button onClick={UploadFiles} className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition">
                         Upload
                     </button>
                 </div>
