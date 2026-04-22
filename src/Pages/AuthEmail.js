@@ -4,22 +4,24 @@ export default function AuthEmail() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState()
+    // const [message, setMessage] = useState()
+    const [isLogin, setIsLogin] = useState(false)
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-        })
-        if (error) {
-            console.log(error);
-        }
-        if (data) {
-            console.log(data);
 
+        if (isLogin) {
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password, })
+            if (error) { console.log(error) }
+            if (data) { console.log(data) }
+        } else {
+            const { data, error } = await supabase.auth.signUp({ email, password, })
+            if (error) { console.log(error) }
+            if (data) { console.log(data) }
         }
+
 
     };
     return (
@@ -62,14 +64,19 @@ export default function AuthEmail() {
                     <p className="text-sm text-gray-600">
                         Already have an account?{" "}
                         <button
-                            onClick={() => {/* add your navigation logic here, e.g., setIsLogin(true) */ }}
+                            onClick={() => { setIsLogin(true) }}
                             className="text-indigo-600 font-semibold hover:text-indigo-500 transition-colors duration-200"
                         >
                             Login
                         </button>
                     </p>
                 </div>
-
+                {/* {message.text && (
+            <div className={`mb-6 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
+                }`}>
+                {message.text}
+            </div>
+        )} */}
             </>
         </div>
     )
