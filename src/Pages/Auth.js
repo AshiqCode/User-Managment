@@ -1,27 +1,15 @@
 import { useState, useEffect } from "react";
 import supabase from "../config/SupaBaseClient";
 import Home from "./Home";
+import AuthEmail from "./AuthEmail";
 
 export default function Auth() {
-    const [email, setEmail] = useState("");
+
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+
     const [message, setMessage] = useState({ type: "", text: "" });
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setMessage({ type: "", text: "" });
 
-        const { error } = await supabase.auth.signInWithOtp({ email });
-
-        if (error) {
-            setMessage({ type: "error", text: error.message });
-        } else {
-            setMessage({ type: "success", text: "Check your email for the magic link!" });
-        }
-        setLoading(false);
-    };
 
     const handleGoogleLogin = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
@@ -43,6 +31,7 @@ export default function Auth() {
         <div className="min-h-[100svh] flex items-center justify-center bg-[#f9fafb] px-4 selection:bg-indigo-100">
             <div className="w-full max-w-[400px]">
                 {/* Branding / Logo Area */}
+
                 <div className="text-center mb-10">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-200 mb-4">
                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,37 +43,9 @@ export default function Auth() {
                 </div>
 
                 <div className="bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl p-8">
-                    <h2 className="text-xl font-semibold text-gray-800">Sign in</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">SignUp</h2>
+                    <AuthEmail />
 
-                    {/* Status Messages */}
-                    {message.text && (
-                        <div className={`mb-6 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
-                            }`}>
-                            {message.text}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1 ml-1">Email Address</label>
-                            <input
-                                type="email"
-                                placeholder="name@company.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all duration-200"
-                                required
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-200 transform active:scale-[0.98] disabled:opacity-70"
-                        >
-                            {loading ? "Sending..." : "Continue with Email"}
-                        </button>
-                    </form>
 
                     <div className="relative my-8">
                         <div className="absolute inset-0 flex items-center">
