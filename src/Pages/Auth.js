@@ -34,11 +34,11 @@ export default function Auth() {
                 {/* Branding / Logo Area */}
 
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-200 mb-4">
+                    {/* <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-200 mb-4">
                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
-                    </div>
+                    </div> */}
                     <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">CloudShare</h1>
                     {/* <p className="text-gray-500 mt-2">Secure file sharing made simple</p> */}
                 </div>

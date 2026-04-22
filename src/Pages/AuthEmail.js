@@ -67,7 +67,6 @@ export default function AuthEmail() {
                             required
                         />
                     </div>
-
                     <button
                         type="submit"
                         className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-200 transform active:scale-[0.98] disabled:opacity-70"
