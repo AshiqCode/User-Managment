@@ -43,7 +43,7 @@ export default function Auth() {
                 </div>
 
                 <div className="bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl p-8">
-                    <h2 className="text-xl font-semibold text-gray-800">SignUp</h2>
+
                     <AuthEmail />
 
 

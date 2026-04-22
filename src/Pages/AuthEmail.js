@@ -1,24 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import supabase from '../config/SupaBaseClient';
 export default function AuthEmail() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    // const [message, setMessage] = useState()
+    const [message, setMessage] = useState()
     const [isLogin, setIsLogin] = useState(false)
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage(null);
+            }, 3000);
 
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
         if (isLogin) {
             const { data, error } = await supabase.auth.signInWithPassword({ email, password, })
-            if (error) { console.log(error) }
+            if (error) {
+                console.log(error)
+                setMessage(error.message)
+            }
             if (data) { console.log(data) }
         } else {
             const { data, error } = await supabase.auth.signUp({ email, password, })
-            if (error) { console.log(error) }
+            if (error) {
+                console.log(error.message)
+                setMessage(error.message)
+
+            }
             if (data) { console.log(data) }
         }
 
@@ -28,6 +42,9 @@ export default function AuthEmail() {
         <div>
             <>
                 <form onSubmit={handleLogin} className="space-y-4">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        {isLogin ? "Login" : "SignUp"}
+                    </h2>
                     <div>
                         <label className="block text-sm mt-3 font-medium text-gray-700 mb-1 ml-1">Email Address</label>
                         <input
@@ -56,27 +73,32 @@ export default function AuthEmail() {
                         disabled={loading}
                         className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-200 transform active:scale-[0.98] disabled:opacity-70"
                     >
-                        {loading ? "Sending..." : "SignUp"}
+                        {loading ? "Sending..." : (isLogin ? "Login" : "SignUp")}
                     </button>
                 </form>
 
                 <div className="mt-6 text-center">
                     <p className="text-sm text-gray-600">
-                        Already have an account?{" "}
+                        {isLogin ? "Create New Account " : "Already have an account?"}
                         <button
-                            onClick={() => { setIsLogin(true) }}
+                            onClick={() => {
+                                isLogin ?
+                                    setIsLogin(false)
+                                    :
+                                    setIsLogin(true)
+                            }}
                             className="text-indigo-600 font-semibold hover:text-indigo-500 transition-colors duration-200"
                         >
-                            Login
+                            {isLogin ? "SignUp" : "Login"}
                         </button>
                     </p>
                 </div>
-                {/* {message.text && (
-            <div className={`mb-6 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
-                }`}>
-                {message.text}
-            </div>
-        )} */}
+                {message && (
+                    <div className={`mb-6 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
+                        }`}>
+                        {message}
+                    </div>
+                )}
             </>
         </div>
     )
