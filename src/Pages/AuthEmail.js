@@ -3,7 +3,7 @@ import supabase from '../config/SupaBaseClient';
 export default function AuthEmail() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState()
     const [isLogin, setIsLogin] = useState(false)
 
@@ -70,16 +70,15 @@ export default function AuthEmail() {
 
                     <button
                         type="submit"
-                        disabled={loading}
                         className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-200 transform active:scale-[0.98] disabled:opacity-70"
                     >
-                        {loading ? "Sending..." : (isLogin ? "Login" : "SignUp")}
+                        {isLogin ? "Login" : "SignUp"}
                     </button>
                 </form>
 
                 <div className="mt-6 text-center">
                     <p className="text-sm text-gray-600">
-                        {isLogin ? "Create New Account " : "Already have an account?"}
+                        {isLogin ? "Create New Account " : "Already have an account? "}
                         <button
                             onClick={() => {
                                 isLogin ?
@@ -94,7 +93,7 @@ export default function AuthEmail() {
                     </p>
                 </div>
                 {message && (
-                    <div className={`mb-6 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
+                    <div className={`mb-6 mt-4 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
                         }`}>
                         {message}
                     </div>

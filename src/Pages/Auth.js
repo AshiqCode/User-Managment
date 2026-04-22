@@ -8,6 +8,7 @@ export default function Auth() {
     const [user, setUser] = useState(null);
 
     const [message, setMessage] = useState({ type: "", text: "" });
+    console.log(message);
 
 
 
