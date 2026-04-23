@@ -8,13 +8,15 @@ export default function ResetPassword() {
     const [password, setPassword] = useState()
     const updateUserHandle = async (e) => {
         e.preventDefault();
-        const { data, error } = await supabase.auth.updateUser(email, password)
+        const { data, error } = await supabase.auth.updateUser({ email, password })
         if (error) {
-            console.log(error);
+            console.log(error.message);
+            setMessage(error.message)
+            return
         }
         if (data) {
             console.log(data);
-            setMessage("Your password is Updated now")
+            setMessage("Success! Your new password is now active.")
         }
 
     }
@@ -88,7 +90,7 @@ export default function ResetPassword() {
                             {/* Message Content */}
                             <div className="flex-1">
                                 <p className="text-sm font-bold leading-none mb-1">
-                                    {message.toLowerCase().includes("error") ? "Attention" : "Password Updated"}
+                                    {message.toLowerCase().includes("should") ? "Attention" : "Password Updated"}
                                 </p>
                                 <p className="text-xs font-medium opacity-90 leading-relaxed">
                                     {message}
