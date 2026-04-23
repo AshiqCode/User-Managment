@@ -89,6 +89,12 @@ export default function AuthEmail() {
                         >
                             {isLogin ? "SignUp" : "Login"}
                         </button>
+                        <br />
+                        {isLogin && <button
+                            className="text-sm mt-2 font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200 focus:outline-none focus:underline"
+                        >
+                            Forgot Password?
+                        </button>}
                     </p>
                 </div>
                 {message && (
