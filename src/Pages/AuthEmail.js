@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import supabase from '../config/SupaBaseClient';
+import { Link } from 'react-router-dom';
 export default function AuthEmail() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -96,11 +97,14 @@ export default function AuthEmail() {
                             {isLogin ? "SignUp" : "Login"}
                         </button>
                         <br />
-                        {isLogin && <button
-                            className="text-sm mt-2 font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200 focus:outline-none focus:underline"
-                        >
-                            Forgot Password?
-                        </button>}
+                        <Link to={"/ForgotPassword"}>
+
+                            {isLogin && <button
+                                className="text-sm mt-2 font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200 focus:outline-none focus:underline"
+                            >
+                                Forgot Password?
+                            </button>}
+                        </Link>
                     </p>
                 </div>
 
