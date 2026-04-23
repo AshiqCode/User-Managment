@@ -96,7 +96,7 @@ export default function AuthEmail() {
                         >
                             {isLogin ? "SignUp" : "Login"}
                         </button>
-                        {/* <br />
+                        <br />
                         <Link to={"/ForgotPassword"}>
 
                             {isLogin && <button
@@ -104,7 +104,7 @@ export default function AuthEmail() {
                             >
                                 Forgot Password?
                             </button>}
-                        </Link> */}
+                        </Link>
                     </p>
                 </div>
 

@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import { Lock, ShieldCheck, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 import supabase from '../config/SupaBaseClient';
+import { toast } from 'react-toastify';
 
 export default function ResetPassword() {
-    const [email, setEmail] = useState()
+    const [confirmPassword, setConfirmPassword] = useState()
     const [message, setMessage] = useState()
     const [password, setPassword] = useState()
     const updateUserHandle = async (e) => {
         e.preventDefault();
-        const { data, error } = await supabase.auth.updateUser({ email, password })
-        if (error) {
-            console.log(error.message);
-            setMessage(error.message)
-            return
+        if (confirmPassword === password) {
+            const { data, error } = await supabase.auth.updateUser({ password })
+            if (error) {
+                console.log(error.message);
+                setMessage(error.message)
+                return;
+            }
+            if (data) {
+                console.log(data);
+                setMessage("Success! Your new password is now active.")
+            }
         }
-        if (data) {
-            console.log(data);
-            setMessage("Success! Your new password is now active.")
+        else {
+            toast.warning("Confirm Password Again")
         }
 
     }
@@ -41,16 +47,16 @@ export default function ResetPassword() {
                     {/* New Password Field */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">
-                            Email
+                            New Password
                         </label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-indigo-500 transition-colors">
                                 <Lock size={18} />
                             </div>
                             <input
-                                type="email"
-                                placeholder="name@company.com"
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="password"
+                                placeholder="••••••••"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-200"
                                 required
                             />
@@ -58,7 +64,7 @@ export default function ResetPassword() {
                     </div>
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">
-                            New Password
+                            Confirm New Password
                         </label>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-indigo-500 transition-colors">
