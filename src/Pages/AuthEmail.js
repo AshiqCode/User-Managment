@@ -67,6 +67,12 @@ export default function AuthEmail() {
                             required
                         />
                     </div>
+                    {message && (
+                        <div className={`mb-6 mt-4 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
+                            }`}>
+                            {message}
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-200 transform active:scale-[0.98] disabled:opacity-70"
@@ -97,12 +103,7 @@ export default function AuthEmail() {
                         </button>}
                     </p>
                 </div>
-                {message && (
-                    <div className={`mb-6 mt-4 p-3 rounded-lg text-sm font-medium ${message.type === "error" ? "bg-red-50 text-red-600" : "bg-green-50 text-green-600"
-                        }`}>
-                        {message}
-                    </div>
-                )}
+
             </>
         </div>
     )
