@@ -1,5 +1,6 @@
 // components/Sidebar.jsx
 import { LayoutGrid, Users, Star, ShieldCheck, LogOut, CloudUpload } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Sidebar({ isOpen, setOpen, user, handleLogout }) {
     return (
@@ -66,6 +67,13 @@ export default function Sidebar({ isOpen, setOpen, user, handleLogout }) {
                             </div>
                         </div>
 
+                        <Link to={"/resetPassword"}
+
+                            className="group flex items-center justify-center gap-2 w-full py-3 my-3 text-[11px] font-extrabold uppercase tracking-wider text-slate-500 bg-white border border-slate-200 rounded-xl hover:text-emerald-600 hover:border-emerald-100 hover:bg-emerald-50 hover:shadow-md hover:shadow-emerald-500/5 transition-all duration-200 active:scale-95"
+                        >
+                            <ShieldCheck size={14} className="group-hover:rotate-12 transition-transform" />
+                            Update Password
+                        </Link>
                         <button
                             onClick={handleLogout}
                             className="group flex items-center justify-center gap-2 w-full py-2.5 text-[11px] font-extrabold uppercase tracking-wider text-slate-500 bg-white border border-slate-200 rounded-xl hover:text-red-600 hover:border-red-100 hover:bg-red-50 hover:shadow-md hover:shadow-red-500/5 transition-all duration-200 active:scale-95"
