@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Lock, ShieldCheck, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 import supabase from '../config/SupaBaseClient';
 import { toast } from 'react-toastify';
-
 export default function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState()
     const [message, setMessage] = useState()
