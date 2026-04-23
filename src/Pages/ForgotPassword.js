@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { KeyRound, ArrowLeft, Mail } from 'lucide-react';
-
+import { KeyRound, ArrowLeft, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
+import supabase from '../config/SupaBaseClient';
 export default function ForgotPassword() {
+
+    const [message, setMessage] = useState()
+    const [email, setEmail] = useState()
+    const forgotPasswordHandle = async (e) => {
+        e.preventDefault();
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email)
+        if (error) {
+            console.log(error);
+        }
+        if (data) {
+            console.log(data);
+            setMessage(`We've sent a password reset link to ${email}. The link will expire in 1 hour.`)
+        }
+
+    }
+
+
     return (
         <div className="max-w-md mx-auto mt-12 px-4">
             {/* Pro Card Container */}
@@ -21,7 +38,7 @@ export default function ForgotPassword() {
                     </p>
                 </div>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={forgotPasswordHandle}>
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">
                             Email Address
@@ -34,11 +51,36 @@ export default function ForgotPassword() {
                                 type="email"
                                 placeholder="name@company.com"
                                 className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-200 placeholder:text-gray-400 text-gray-800"
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                         </div>
                     </div>
+                    {message && (
+                        <div className={`flex items-start gap-3 p-4 rounded-xl border mb-6 animate-in fade-in duration-300 ${message.toLowerCase().includes("error")
+                            ? "bg-red-50 border-red-100 text-red-700"
+                            : "bg-emerald-50 border-emerald-100 text-emerald-700"
+                            }`}>
+                            {/* Dynamic Icon */}
+                            <div className="mt-0.5">
+                                {message.toLowerCase().includes("error") ? (
+                                    <AlertCircle size={18} strokeWidth={2.5} />
+                                ) : (
+                                    <CheckCircle2 size={18} strokeWidth={2.5} />
+                                )}
+                            </div>
 
+                            {/* Message Content */}
+                            <div className="flex-1">
+                                <p className="text-sm font-bold leading-none mb-1">
+                                    {message.toLowerCase().includes("error") ? "Attention" : "Email Sent"}
+                                </p>
+                                <p className="text-xs font-medium opacity-90 leading-relaxed">
+                                    {message}
+                                </p>
+                            </div>
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-2xl transition-all duration-300 transform active:scale-[0.97] shadow-lg shadow-gray-200 flex items-center justify-center gap-2"
